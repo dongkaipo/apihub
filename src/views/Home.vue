@@ -8,7 +8,10 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
-import axios from "../services/http.js";
+import Http from "../services/Http.js";
+import User from "../models/user/User.js";
+import AuthService from "../services/AuthService";
+import UserService from "../services/UserService";
 
 export default {
   name: "home",
@@ -20,18 +23,22 @@ export default {
   components: {
     HelloWorld
   },
-  mounted() {
-    console.log("i am run");
-    axios({
-      url: "/test/hello",
-      method: "get"
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  mounted: function() {
+
+    let userService = new UserService();
+    userService.my(
+      function(user) {
+        console.log(user.contact.address);
+      },
+      function(error) {
+        console.log(error.message);
+        console.log(error.response.status);
+      }
+    );
+
+
+
+
   }
 };
 </script>
